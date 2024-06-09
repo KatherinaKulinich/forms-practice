@@ -1,0 +1,22 @@
+{
+    "extends": ["stylelint-config-standard"],
+    "rules": {
+        "no-duplicate-selectors": true,
+        "selector-class-pattern": [
+            "^[a-z][a-zA-Z0-9]+$",
+            {
+                "message": "Classname -> camelCase",
+                "severity": "error"
+            }
+        ],
+        "color-named": "never",
+        "block-no-empty": true,
+        "comment-no-empty": true,
+        "no-empty-source": true,
+        "color-hex-length": null,
+        "font-weight-notation": "numeric",
+        "font-family-name-quotes": "always-where-required",
+        "function-url-quotes": "always"
+    },
+    "defaultSeverity": "warning"
+}
