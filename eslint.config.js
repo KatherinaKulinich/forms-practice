@@ -18,7 +18,7 @@ export default tseslint.config(
         }
     },
     {
-        ignores: ['dist', 'node_modules', 'coverage', 'eslint.config.js']
+        ignores: ['dist', 'node_modules', 'coverage', 'eslint.config.js', 'tailwind.config.js']
     },
     js.configs.recommended,
     ...tseslint.configs.recommended,
@@ -29,7 +29,7 @@ export default tseslint.config(
                 ...globals.es2020
             },
             parserOptions: {
-                project: ['tsconfig.json', 'tsconfig.node.json']
+                project: ['./tsconfig.json', 'tsconfig.node.json']
             }
         }
     },
