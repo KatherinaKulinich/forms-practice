@@ -60,7 +60,7 @@ export default tseslint.config(
                 'error',
                 { component: true, html: true }
             ],
-            'max-lines': ['warn', { max: 124 }],
+            'max-lines': ['warn', { max: 165 }],
             'no-unused-vars': 'error',
             'no-var': 'error'
         }
