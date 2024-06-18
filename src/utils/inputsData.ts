@@ -30,3 +30,11 @@ export const inputsData = [
         placeholder: '******'
     }
 ];
+
+export const initialValues = {
+    userName: '',
+    userSurname: '',
+    userBirthday: '',
+    userEmail: '',
+    userPassword: ''
+};
