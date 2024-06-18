@@ -4,7 +4,7 @@ import { initialValues, inputsData } from '../../utils/inputsData';
 import ConfettiEffect from '../ConfettiEffect';
 import Field from '../Field';
 import Form from '../Form';
-import Modal from '../Modal';
+import ModalFormIsFinished from '../modals/ModalFormIsFinished';
 
 const BasicForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>(initialValues);
@@ -59,7 +59,7 @@ const BasicForm: React.FC = () => {
                 ))}
             </Form>
             {isConfetti && <ConfettiEffect offTheEffect={onFormFinished} />}
-            <Modal
+            <ModalFormIsFinished
                 isVisible={isModalVisible}
                 formData={formData}
                 onClose={() => setIsModalVisible(false)}
