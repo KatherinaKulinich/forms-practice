@@ -15,7 +15,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
     return (
         <button
             onClick={onClick}
-            className={`${styles} w-min rounded-md border px-6 py-1 uppercase`}
+            className={`${styles} rounded-md border px-6 py-2 uppercase`}
             type={type}
             {...rest}
         >

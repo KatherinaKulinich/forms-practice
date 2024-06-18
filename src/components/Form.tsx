@@ -29,12 +29,12 @@ const Form: React.FC<FormProps> = ({
                 <fieldset className='flex w-full flex-col gap-4'>
                     {children}
                 </fieldset>
-                <Button
-                    option='regular'
-                    buttonText='Save'
-                    type='submit'
-                />
             </div>
+            <Button
+                option='regular'
+                buttonText='Save'
+                type='submit'
+            />
         </form>
     );
 };
