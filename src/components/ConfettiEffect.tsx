@@ -7,7 +7,7 @@ interface ConfettiEffectProps {
 const ConfettiEffect: React.FC<ConfettiEffectProps> = ({ offTheEffect }) => {
     return (
         <ConfettiExplosion
-            particleCount={300}
+            particleCount={500}
             duration={2500}
             width={1200}
             onComplete={offTheEffect}

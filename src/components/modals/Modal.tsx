@@ -5,6 +5,7 @@ interface ModalProps {
     isVisible: boolean;
     onClose: () => void;
     children: React.ReactNode;
+    additionalStyles?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
@@ -12,15 +13,40 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    className='fixed inset-0 z-10 h-screen w-full bg-slate-500/80'
+                    className='fixed inset-0 z-10 flex h-screen w-full items-center justify-center bg-slate-500/80'
                     onClick={onClose}
+                    initial={{
+                        opacity: 0
+                    }}
+                    animate={{
+                        opacity: 1,
+                        transition: { duration: 0.3 }
+                    }}
+                    exit={{
+                        opacity: 0,
+                        transition: { duration: 0.3 }
+                    }}
                 >
-                    <div
-                        className='fixed left-1/2 top-1/2 z-20 flex w-full max-w-[500px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-10 rounded-md bg-sky-50/75 p-10'
+                    <motion.div
+                        className='fixed z-20 flex w-full max-w-[500px] flex-col items-center gap-10 rounded-md bg-sky-50/75 p-10'
                         onClick={(event) => event.stopPropagation()}
+                        initial={{
+                            opacity: 0,
+                            y: 30
+                        }}
+                        animate={{
+                            opacity: 1,
+                            y: 0,
+                            transition: { duration: 0.3 }
+                        }}
+                        exit={{
+                            opacity: 0,
+                            y: 30,
+                            transition: { duration: 0.3 }
+                        }}
                     >
                         {children}
-                    </div>
+                    </motion.div>
                 </motion.div>
             )}
         </AnimatePresence>,
