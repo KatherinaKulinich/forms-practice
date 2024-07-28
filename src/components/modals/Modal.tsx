@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
+import cx from 'classnames';
 
 interface ModalProps {
     isVisible: boolean;
@@ -8,7 +9,12 @@ interface ModalProps {
     additionalStyles?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({
+    isVisible,
+    onClose,
+    children,
+    additionalStyles
+}) => {
     return createPortal(
         <AnimatePresence>
             {isVisible && (
@@ -28,7 +34,10 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
                     }}
                 >
                     <motion.div
-                        className='fixed z-20 flex w-full max-w-[500px] flex-col items-center gap-10 rounded-md bg-sky-50/75 p-10'
+                        className={cx(
+                            'fixed z-20 flex w-full flex-col items-center gap-10 rounded-md bg-violet-50/75 p-10',
+                            additionalStyles
+                        )}
                         onClick={(event) => event.stopPropagation()}
                         initial={{
                             opacity: 0,

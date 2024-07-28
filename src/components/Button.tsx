@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
                 <DefaultButton
                     buttonText={buttonText}
                     onClick={onClick}
-                    styles='bg-indigo-600 text-slate-200 hover:bg-indigo-700 active:bg-indigo-900'
+                    styles='bg-violet-700 text-slate-200 hover:bg-violet-500 active:bg-violet-400'
                     type={type}
                     {...rest}
                 />

@@ -12,11 +12,6 @@ const ConfettiEffect: React.FC<ConfettiEffectProps> = ({ offTheEffect }) => {
             width={1200}
             onComplete={offTheEffect}
             colors={[
-                '#0e7490',
-                '#22d3ee',
-                '#1d4ed8',
-                '#60a5fa',
-                '#0ea5e9',
                 '#38bdf8',
                 '#1e40af',
                 '#6d28d9',

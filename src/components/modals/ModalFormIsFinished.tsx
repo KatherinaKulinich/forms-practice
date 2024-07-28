@@ -33,13 +33,16 @@ const ModalFormIsFinished: React.FC<ModalFormIsFinishedProps> = ({
         <Modal
             isVisible={isVisible}
             onClose={onClose}
+            additionalStyles='max-w-[500px]'
         >
             <div className='flex flex-col items-center gap-10'>
                 <div className='flex flex-col items-center gap-2'>
-                    <h1 className='text-lg uppercase text-sky-700'>
+                    <h1 className='text-lg font-bold uppercase text-violet-900'>
                         Thanks for filling out the form!
                     </h1>
-                    <p className='text-sm text-sky-700/50'>Check your data:</p>
+                    <p className='text-sm font-bold uppercase text-violet-500'>
+                        Check your data:
+                    </p>
                 </div>
                 <div className='flex w-full flex-col gap-5'>
                     <PersonalDataField
@@ -68,6 +71,7 @@ const ModalFormIsFinished: React.FC<ModalFormIsFinishedProps> = ({
                 <Modal
                     isVisible={isNestedModalVisible}
                     onClose={onCloseNestedModal}
+                    additionalStyles='max-w-[250px]'
                 >
                     <div className='text-lg font-semibold uppercase text-sky-600'>
                         Saved!

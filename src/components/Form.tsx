@@ -19,11 +19,13 @@ const Form: React.FC<FormProps> = ({
             method='post'
             action='#'
             onSubmit={onSubmitForm}
-            className='flex w-full max-w-[400px] flex-col items-center gap-12 rounded-md border bg-slate-100/10 p-9 backdrop-blur-md'
+            className='flex w-[400px] flex-col items-center gap-12 rounded-lg border bg-slate-100/20 p-9 backdrop-blur-lg'
         >
             <div className='flex flex-col items-center gap-1'>
-                <h2 className='text-md uppercase text-sky-800'>{formTitle}</h2>
-                <p className='text-xs text-sky-600'>{formSubTitle}</p>
+                <h2 className='text-lg font-bold uppercase tracking-widest text-violet-900'>
+                    {formTitle}
+                </h2>
+                <p className='text-xs text-violet-500'>{formSubTitle}</p>
             </div>
             <div className='flex w-full flex-col gap-10'>
                 <fieldset className='flex w-full flex-col gap-4'>

@@ -43,7 +43,7 @@ const BasicForm: React.FC = () => {
     return (
         <>
             <Form
-                formTitle='Basic Form'
+                formTitle='Controlled Form'
                 formSubTitle='with useState and custom validation'
                 onSubmitForm={onSubmitFormData}
             >
@@ -55,6 +55,8 @@ const BasicForm: React.FC = () => {
                         labelText={data.label}
                         placeholder={data.placeholder}
                         onChange={(event) => onChangeFormData(event)}
+                        isErrorMessage={false}
+                        message=''
                     />
                 ))}
             </Form>

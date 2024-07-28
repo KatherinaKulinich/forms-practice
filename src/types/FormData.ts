@@ -1,7 +1,8 @@
 export interface FormData {
     userName: string;
     userSurname: string;
-    userBirthday: string;
+    userCity: string;
+    userCountry: string;
     userEmail: string;
-    userPassword: string;
+    userAge: number | null;
 }
