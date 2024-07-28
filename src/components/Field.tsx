@@ -24,7 +24,7 @@ const Field = React.forwardRef(
 
         return (
             <div className='flex w-full max-w-[400px] flex-col content-center gap-1'>
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-1'>
                     <label
                         htmlFor={name}
                         className='bold w-full text-xs uppercase text-violet-500'
@@ -39,11 +39,9 @@ const Field = React.forwardRef(
                         {...rest}
                     />
                 </div>
-                {isErrorMessage && (
-                    <p className='text-xs font-semibold text-red-700'>
-                        {message}
-                    </p>
-                )}
+                <p className='h-1 text-xs font-semibold text-red-700'>
+                    {isErrorMessage ? message : ''}
+                </p>
             </div>
         );
     }

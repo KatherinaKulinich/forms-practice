@@ -12,6 +12,6 @@ export const inputsRefs = [
     { input: 'userSurname', ref: inputSurnameRef },
     { input: 'userCity', ref: inputCityRef },
     { input: 'userCountry', ref: inputCountryRef },
-    { input: 'userMail', ref: inputEmailRef },
+    { input: 'userEmail', ref: inputEmailRef },
     { input: 'userAge', ref: inputAgeRef }
 ];

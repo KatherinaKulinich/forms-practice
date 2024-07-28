@@ -1,4 +1,6 @@
-export const inputsData = [
+import { InputsData } from '../types/FormData';
+
+export const inputsData: Array<InputsData> = [
     {
         type: 'text',
         name: 'userName',
@@ -50,10 +52,11 @@ export const inputsData = [
 
     {
         type: 'mail',
-        name: 'userMail',
+        name: 'userEmail',
         label: 'Enter your mail',
         placeholder: '@mail...',
         rules: {
+            minLength: 12,
             isRequired: true,
             message: 'Invalid email'
         }
@@ -78,5 +81,5 @@ export const initialValues = {
     userCity: '',
     userCountry: '',
     userEmail: '',
-    userAge: null
+    userAge: ''
 };

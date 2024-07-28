@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { FormData } from '../../types/FormData';
+import { validateValues } from '../../helpers/validation';
+import { FormData, FormErrors } from '../../types/FormData';
 import { initialValues, inputsData } from '../../utils/inputsData';
 import ConfettiEffect from '../ConfettiEffect';
 import Field from '../Field';
@@ -11,7 +12,7 @@ const BasicForm: React.FC = () => {
     const [isConfetti, setIsConfetti] = useState(false);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    // const [errors, setErrors] = useState()
+    const [errors, setErrors] = useState<FormErrors>({} as FormErrors);
 
     const onChangeFormData: React.ChangeEventHandler<HTMLInputElement> = (
         event
@@ -32,6 +33,7 @@ const BasicForm: React.FC = () => {
     ) => {
         event.preventDefault();
         console.log(formData);
+        setErrors(validateValues(formData));
         setIsConfetti(true);
     };
 
@@ -60,6 +62,7 @@ const BasicForm: React.FC = () => {
                     />
                 ))}
             </Form>
+
             {isConfetti && <ConfettiEffect offTheEffect={onFormFinished} />}
             <ModalFormIsFinished
                 isVisible={isModalVisible}
