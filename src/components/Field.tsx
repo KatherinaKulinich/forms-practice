@@ -39,7 +39,7 @@ const Field = React.forwardRef(
                         {...rest}
                     />
                 </div>
-                <p className='h-1 text-xs font-semibold text-red-700'>
+                <p className='h-1 text-xs font-thin text-red-700'>
                     {isErrorMessage ? message : ''}
                 </p>
             </div>

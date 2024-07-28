@@ -28,7 +28,7 @@ const Form: React.FC<FormProps> = ({
                 <p className='text-xs text-violet-500'>{formSubTitle}</p>
             </div>
             <div className='flex w-full flex-col'>
-                <fieldset className='flex w-full flex-col gap-7'>
+                <fieldset className='flex w-full flex-col gap-10'>
                     {children}
                 </fieldset>
             </div>

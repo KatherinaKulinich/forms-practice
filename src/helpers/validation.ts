@@ -18,26 +18,43 @@ export const validateValues = (data: FormData) => {
             const value: string = data[dataItem as keyof FormData];
             const isRequired = input?.rules?.isRequired;
 
-            if (dataItem === 'userAge' && dataItem === input.name) {
-                const min = input?.rules?.minAge;
-                const max = input?.rules?.maxAge;
+            if (dataItem === input.name) {
+                if (dataItem === 'userAge') {
+                    const { minAge } = input?.rules || null;
+                    const { maxAge } = input?.rules || null;
+                    const { message } = input?.rules || null;
 
-                if (min && max) {
-                    if (+value < min || +value > max) {
-                        errors.userAge = input.rules.message;
+                    if (minAge && maxAge) {
+                        if (Number(value) < minAge || Number(value) > maxAge) {
+                            errors.userAge = message;
+                        }
+                    }
+                } else {
+                    const { minLength } = input?.rules || null;
+                    const { message } = input?.rules || null;
+                    const truncatedValue = value.trim();
+
+                    if (minLength && truncatedValue.length < minLength) {
+                        errors[dataItem as keyof FormData] = message;
+                    }
+
+                    if (dataItem === 'userEmail') {
+                        const mailCondition =
+                            /^[A-Za-z0-9._+\-']+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+                        if (truncatedValue.match(mailCondition)) return;
+                        errors[dataItem as keyof FormData] =
+                            'The email address must be valid and contain special characters.';
+                    } else {
+                        const textCondition = /^[a-zA-Z]+$/;
+                        if (value.match(textCondition)) return;
+                        errors[dataItem as keyof FormData] = message;
                     }
                 }
-            }
 
-            if (dataItem === input.name && dataItem !== 'userAge') {
-                const { minLength } = input?.rules || null;
-
-                if (minLength && value.length < minLength) {
-                    errors[dataItem as keyof FormData] = input.rules.message;
+                if (isRequired && !value) {
+                    errors[dataItem as keyof FormData] = isRequiredMessage;
                 }
-            }
-            if (isRequired && !value) {
-                errors[dataItem as keyof FormData] = isRequiredMessage;
             }
         }
     });
