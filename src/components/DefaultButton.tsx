@@ -1,4 +1,5 @@
-interface DefaultButtonProps {
+interface DefaultButtonProps
+    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     type: 'button' | 'submit' | 'reset';
     buttonText: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -15,7 +16,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
     return (
         <button
             onClick={onClick}
-            className={`${styles} rounded-md border px-10 py-2 uppercase`}
+            className={`${styles} rounded-md border px-10 py-2 uppercase disabled:bg-slate-200/25`}
             type={type}
             {...rest}
         >

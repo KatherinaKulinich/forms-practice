@@ -15,7 +15,6 @@ const ModalFormIsFinished: React.FC<ModalFormIsFinishedProps> = ({
     formData,
     onClose
 }) => {
-    const { userName, userSurname, userEmail, userBirthday } = formData;
     const [isNestedModalVisible, setIsNestedModalVisible] = useState(false);
 
     const onSavePDFData = () => {
@@ -45,22 +44,13 @@ const ModalFormIsFinished: React.FC<ModalFormIsFinishedProps> = ({
                     </p>
                 </div>
                 <div className='flex w-full flex-col gap-5'>
-                    <PersonalDataField
-                        fieldName='Name:'
-                        fieldData={userName}
-                    />
-                    <PersonalDataField
-                        fieldName='Surname:'
-                        fieldData={userSurname}
-                    />
-                    <PersonalDataField
-                        fieldName='Birthday:'
-                        fieldData={userBirthday}
-                    />
-                    <PersonalDataField
-                        fieldName='Mail:'
-                        fieldData={userEmail}
-                    />
+                    {Object.keys(formData).map((item, i) => (
+                        <PersonalDataField
+                            key={i}
+                            fieldName={`${item.replace('user', '')}: `}
+                            fieldData={formData[item as keyof FormData]}
+                        />
+                    ))}
                 </div>
                 <Button
                     type='button'

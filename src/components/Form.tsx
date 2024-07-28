@@ -6,20 +6,22 @@ interface FormProps {
     formSubTitle: string;
     children: React.ReactNode;
     onSubmitForm: React.FormEventHandler<HTMLFormElement>;
+    isDisabled: boolean;
 }
 
 const Form: React.FC<FormProps> = ({
     formTitle,
     formSubTitle,
     children,
-    onSubmitForm
+    onSubmitForm,
+    isDisabled
 }) => {
     return (
         <form
             method='post'
             action='#'
             onSubmit={onSubmitForm}
-            className='flex w-[450px] flex-col items-center gap-12 rounded-lg border bg-slate-100/20 p-12 backdrop-blur-lg'
+            className='flex w-[450px] flex-col items-center gap-8 rounded-lg border bg-slate-100/20 p-10 backdrop-blur-lg'
         >
             <div className='flex flex-col items-center gap-1'>
                 <h2 className='text-lg font-bold uppercase tracking-widest text-violet-900'>
@@ -36,6 +38,7 @@ const Form: React.FC<FormProps> = ({
                 option='regular'
                 buttonText='Save'
                 type='submit'
+                disabled={isDisabled}
             />
         </form>
     );

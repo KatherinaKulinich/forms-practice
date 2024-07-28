@@ -1,6 +1,6 @@
 import DefaultButton from './DefaultButton';
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     type: 'button' | 'submit' | 'reset';
     option: 'regular' | 'secondary' | 'reset';
     buttonText: string;

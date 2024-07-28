@@ -33,12 +33,15 @@ const RefForm: React.FC = () => {
         setIsModalVisible(true);
     };
 
+    // const isButtonDisabled = Object.values(formData).every((key) => key === '');
+
     return (
         <>
             <Form
                 formTitle='Uncontrolled Form'
                 formSubTitle='with ref and custom validation'
                 onSubmitForm={onSubmitFormData}
+                isDisabled={false}
             >
                 {inputsData?.map((data) => {
                     return inputsRefs?.map((refItem) => {

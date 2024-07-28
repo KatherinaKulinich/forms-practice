@@ -9,9 +9,14 @@ import ModalFormIsFinished from '../modals/ModalFormIsFinished';
 
 const BasicForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>(initialValues);
-    const [isConfetti, setIsConfetti] = useState(false);
+    const [isModalData, setIsModalData] = useState<FormData>({} as FormData);
 
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
+
+    const [isConfetti, setIsConfetti] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
+
     const [errors, setErrors] = useState<FormErrors>({
         userName: null,
         userSurname: null,
@@ -35,24 +40,59 @@ const BasicForm: React.FC = () => {
         });
     };
 
-    const onSubmitFormData: React.FormEventHandler<HTMLFormElement> = (
+    const onSubmitFormData: React.FormEventHandler<HTMLFormElement> = async (
         event
     ) => {
         event.preventDefault();
-
         setErrors(validateValues(formData));
-
-        // setIsConfetti(true);
-    };
-
-    const onFormFinished = () => {
-        setIsConfetti(false);
-        setIsModalVisible(true);
+        setIsFormSubmitting(true);
     };
 
     useEffect(() => {
-        console.log(errors);
-    }, [errors]);
+        const errorsChecking = Object.values(errors).every(
+            (key) => key === null
+        );
+
+        if (errorsChecking) {
+            setIsSuccess(true);
+            return;
+        }
+        setIsSuccess(false);
+    }, [errors, isFormSubmitting]);
+
+    useEffect(() => {
+        if (isSuccess && isFormSubmitting) {
+            getConfettiEffect();
+            setIsModalData(formData);
+        }
+    }, [isSuccess, isFormSubmitting]);
+
+    const onFormFinished = () => {
+        setIsConfetti(false);
+
+        const errorsChecking = Object.values(errors).every(
+            (key) => key === null
+        );
+
+        if (errorsChecking) {
+            setIsModalVisible(true);
+            setTimeout(() => {
+                setFormData(initialValues);
+            }, 2000);
+        }
+    };
+
+    const getConfettiEffect = () => {
+        const errorsChecking = Object.values(errors).every(
+            (key) => key === null
+        );
+
+        if (errorsChecking) {
+            setIsConfetti(true);
+        }
+    };
+
+    const isButtonDisabled = Object.values(formData).every((key) => key === '');
 
     return (
         <>
@@ -60,9 +100,11 @@ const BasicForm: React.FC = () => {
                 formTitle='Controlled Form'
                 formSubTitle='with useState and custom validation'
                 onSubmitForm={onSubmitFormData}
+                isDisabled={isButtonDisabled}
             >
                 {inputsData?.map((data) => (
                     <Field
+                        value={formData[data.name as keyof FormData]}
                         key={data.name}
                         type={data.type}
                         name={data.name}
@@ -84,7 +126,7 @@ const BasicForm: React.FC = () => {
             {isConfetti && <ConfettiEffect offTheEffect={onFormFinished} />}
             <ModalFormIsFinished
                 isVisible={isModalVisible}
-                formData={formData}
+                formData={isModalData}
                 onClose={() => setIsModalVisible(false)}
             />
         </>
