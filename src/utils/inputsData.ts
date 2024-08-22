@@ -9,8 +9,7 @@ export const inputsData: Array<InputsData> = [
         rules: {
             minLength: 3,
             isRequired: true,
-            message:
-                'The name must be at least 3 letters long and must not contain numbers or other symbols.'
+            message: 'Invalid name'
         }
     },
     {
@@ -21,8 +20,7 @@ export const inputsData: Array<InputsData> = [
         rules: {
             minLength: 3,
             isRequired: true,
-            message:
-                'Surname must be at least 3 letters long and must not contain numbers or other symbols.'
+            message: 'Invalid surname'
         }
     },
     {
@@ -33,8 +31,7 @@ export const inputsData: Array<InputsData> = [
         rules: {
             minLength: 3,
             isRequired: true,
-            message:
-                'City must be at least 3 letters long and must not contain numbers or other symbols.'
+            message: 'Invalid city name'
         }
     },
     {
@@ -45,8 +42,7 @@ export const inputsData: Array<InputsData> = [
         rules: {
             minLength: 3,
             isRequired: true,
-            message:
-                'Country must be at least 3 letters long and must not contain numbers or other symbols.'
+            message: 'Invalid country name'
         }
     },
 
@@ -58,7 +54,8 @@ export const inputsData: Array<InputsData> = [
         rules: {
             minLength: 12,
             isRequired: true,
-            message: 'Invalid email'
+            message:
+                'The email address must be valid and contain special characters.'
         }
     },
     {
@@ -70,7 +67,7 @@ export const inputsData: Array<InputsData> = [
             minAge: 12,
             maxAge: 110,
             isRequired: true,
-            message: 'Invalid value'
+            message: 'Invalid age'
         }
     }
 ];

@@ -2,7 +2,7 @@ import { FormData, FormErrors } from '../types/FormData';
 import { inputsData } from '../utils/inputsData';
 
 export const validateValues = (data: FormData) => {
-    const isRequiredMessage = 'This this required field!';
+    const isRequiredMessage = 'This this a required field!';
 
     const errors: FormErrors = {
         userName: null,
@@ -14,47 +14,48 @@ export const validateValues = (data: FormData) => {
     };
 
     inputsData.forEach((input) => {
-        for (const dataItem in data) {
-            const value: string = data[dataItem as keyof FormData];
-            const isRequired = input?.rules?.isRequired;
+        const inputName = input.name as keyof FormData;
+        const value = data[inputName]?.trim() || '';
+        const rules = input.rules;
 
-            if (dataItem === input.name) {
-                if (dataItem === 'userAge') {
-                    const { minAge } = input?.rules || null;
-                    const { maxAge } = input?.rules || null;
-                    const { message } = input?.rules || null;
+        if (rules?.isRequired && !value) {
+            errors[inputName] = isRequiredMessage;
+        }
 
-                    if (minAge && maxAge) {
-                        if (Number(value) < minAge || Number(value) > maxAge) {
-                            errors.userAge = message;
-                        }
-                    }
-                } else {
-                    const { minLength } = input?.rules || null;
-                    const { message } = input?.rules || null;
-                    const truncatedValue = value.trim();
+        if (input.name === 'userAge' && value) {
+            const age = Number(value);
 
-                    if (minLength && truncatedValue.length < minLength) {
-                        errors[dataItem as keyof FormData] = message;
-                    }
+            if (
+                (rules?.minAge && age < rules.minAge) ||
+                (rules?.maxAge && age > rules.maxAge)
+            ) {
+                errors.userAge = rules?.message;
+            }
+            return;
+        }
 
-                    if (dataItem === 'userEmail') {
-                        const mailCondition =
-                            /^[A-Za-z0-9._+\-']+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        if (input.name === 'userEmail' && value) {
+            const mailPattern =
+                /^[A-Za-z0-9._+\-']+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-                        if (truncatedValue.match(mailCondition)) return;
-                        errors[dataItem as keyof FormData] =
-                            'The email address must be valid and contain special characters.';
-                    } else {
-                        const textCondition = /^[a-zA-Z]+$/;
-                        if (value.match(textCondition)) return;
-                        errors[dataItem as keyof FormData] = message;
-                    }
-                }
+            if (!mailPattern.test(value)) {
+                errors.userEmail = rules.message;
+            }
+            return;
+        }
 
-                if (isRequired && !value) {
-                    errors[dataItem as keyof FormData] = isRequiredMessage;
-                }
+        if (value && rules?.minLength && value.length < rules?.minLength) {
+            errors[inputName] =
+                `This field must be at least ${rules?.minLength} characters long!`;
+
+            return;
+        }
+
+        if (value && input.name !== 'userEmail' && input.name !== 'userAge') {
+            const textPattern = /^[a-zA-Z]+$/;
+
+            if (!textPattern.test(value)) {
+                errors[inputName] = rules?.message;
             }
         }
     });

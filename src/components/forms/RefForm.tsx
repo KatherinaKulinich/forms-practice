@@ -23,9 +23,9 @@ const RefForm: React.FC = () => {
             {} as FormData
         );
 
+        validateValues(data);
         setFormData(data);
         setIsConfetti(true);
-        validateValues(data);
     };
 
     const onFormFinished = () => {
