@@ -1,44 +1,71 @@
-import { useEffect, useState } from 'react';
-import { validateValues } from '../helpers/validation';
-import { FormData, FormErrors } from '../types/FormData';
+import { useCallback, useEffect, useState } from 'react';
+import { validateValues } from '../helpers/validateValues';
+import { FormData } from '../types/FormData';
 
-export const useFormHandlers = (formData: FormData, isActiveForm: boolean) => {
-    const initialErrorValues: FormErrors = {
-        userName: null,
-        userSurname: null,
-        userCity: null,
-        userCountry: null,
-        userEmail: null,
-        userAge: null
-    };
+export const useFormHandlers = (initialFormValues: FormData) => {
+    const [formData, setFormData] = useState<FormData>(initialFormValues);
     const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
-    const [errors, setErrors] = useState<FormErrors>(initialErrorValues);
 
-    const onSubmitFormData: React.FormEventHandler<HTMLFormElement> = (
-        event
-    ) => {
-        event.preventDefault();
-        setErrors(validateValues(formData));
-        setIsFormSubmitting(true);
-    };
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    // const [isFocus, setIsFocus] = useState<boolean>(false);
+
+    const [errors, setErrors] = useState<Partial<FormData>>({});
+
+    const onChangeFormData = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            const { name, value } = event.target;
+
+            // setIsFocus(true);
+            setFormData((current) => {
+                return {
+                    ...current,
+                    [name]: value
+                };
+            });
+
+            const newErrors = validateValues({
+                ...formData,
+                [name]: value
+            });
+            setErrors(newErrors);
+        },
+        [formData]
+    );
+
+    const onInputBlur = useCallback(() => {
+        // setIsFocus(false);
+        setIsFormSubmitting(false);
+    }, []);
 
     useEffect(() => {
-        if (isActiveForm && isFormSubmitting) {
-            setErrors(validateValues(formData));
-            return;
-        }
-        // setIsFormSubmitting(false);
-    }, [formData, isActiveForm, isFormSubmitting]);
+        const errorsChecking = Object.values(errors).every(
+            (key) => key === null
+        );
 
-    const clearErrorMessages = () => {
-        setErrors(initialErrorValues);
+        setIsSuccess(errorsChecking);
+    }, [errors, isFormSubmitting]);
+
+    const onSubmitFormData = (event: React.FormEvent) => {
+        event.preventDefault();
+        setIsFormSubmitting(true);
+
+        setErrors(validateValues(formData));
+    };
+
+    const clearForm = () => {
+        setFormData(initialFormValues);
+        setErrors({});
     };
 
     return {
-        onSubmitFormData,
+        formData,
         errors,
+        // isFocus,
+        isSuccess,
         isFormSubmitting,
-        setIsFormSubmitting,
-        clearErrorMessages
+        onChangeFormData,
+        onSubmitFormData,
+        onInputBlur,
+        clearForm
     };
 };

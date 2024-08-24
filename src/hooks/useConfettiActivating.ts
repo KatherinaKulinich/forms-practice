@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FormErrors } from '../types/FormData';
+import { FormData } from '../types/FormData';
 
 export const useConfettiActivating = () => {
     const [isConfetti, setIsConfetti] = useState(false);
@@ -10,7 +10,7 @@ export const useConfettiActivating = () => {
         setIsModalVisible(true);
     };
 
-    const getConfettiEffect = (errors: FormErrors) => {
+    const getConfettiEffect = (errors: Partial<FormData>) => {
         const isErrorAbsence = checkErrors(errors);
 
         if (isErrorAbsence) {
@@ -18,7 +18,7 @@ export const useConfettiActivating = () => {
         }
     };
 
-    const checkErrors = (errors: FormErrors) => {
+    const checkErrors = (errors: Partial<FormData>) => {
         return Object.values(errors).every((key) => key === null);
     };
 

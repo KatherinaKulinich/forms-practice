@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useConfettiActivating } from '../../hooks/useConfettiActivating';
 import { useFormHandlers } from '../../hooks/useFormHandlers';
 import { FormData } from '../../types/FormData';
@@ -9,10 +9,18 @@ import Form from '../Form';
 import ModalFormIsFinished from '../modals/ModalFormIsFinished';
 
 const BasicForm: React.FC = () => {
-    const [formData, setFormData] = useState<FormData>(initialValues);
     const [isModalData, setIsModalData] = useState<FormData>({} as FormData);
-    const [isSuccess, setIsSuccess] = useState<boolean>(false);
-    const [isFocus, setIsFocus] = useState<boolean>(false);
+
+    const {
+        formData,
+        errors,
+        isSuccess,
+        onChangeFormData,
+        onInputBlur,
+        onSubmitFormData,
+        isFormSubmitting,
+        clearForm
+    } = useFormHandlers(initialValues);
 
     const {
         isConfetti,
@@ -22,37 +30,6 @@ const BasicForm: React.FC = () => {
         closeModal
     } = useConfettiActivating();
 
-    const {
-        errors,
-        onSubmitFormData,
-        isFormSubmitting,
-        clearErrorMessages,
-        setIsFormSubmitting
-    } = useFormHandlers(formData, isFocus);
-
-    const onChangeFormData: React.ChangeEventHandler<HTMLInputElement> = (
-        event
-    ) => {
-        setIsFocus(true);
-        const value = event.target.value;
-        const name = event.target.name;
-
-        setFormData((current) => {
-            return {
-                ...current,
-                [name]: value
-            };
-        });
-    };
-
-    useEffect(() => {
-        const errorsChecking = Object.values(errors).every(
-            (key) => key === null
-        );
-
-        setIsSuccess(errorsChecking);
-    }, [errors, isFormSubmitting]);
-
     useEffect(() => {
         if (isSuccess && isFormSubmitting) {
             getConfettiEffect(errors);
@@ -60,21 +37,12 @@ const BasicForm: React.FC = () => {
         }
     }, [isSuccess, isFormSubmitting]);
 
-    const isButtonDisabled = Object.values(formData).every((key) => key === '');
-
-    const finishConfettiAnimation = useCallback(() => {
+    const finishConfettiAnimation = () => {
         onFormFinished();
+        setTimeout(clearForm, 2000);
+    };
 
-        setTimeout(() => {
-            setFormData(initialValues);
-            clearErrorMessages();
-        }, 2000);
-    }, [onFormFinished, clearErrorMessages]);
-
-    const onInputBlur = useCallback(() => {
-        setIsFocus(false);
-        setIsFormSubmitting(false);
-    }, [setIsFormSubmitting]);
+    const isButtonDisabled = Object.values(formData).every((key) => key === '');
 
     return (
         <>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { validateValues } from '../../helpers/validation';
+import { validateValues } from '../../helpers/validateValues';
 import { FormData } from '../../types/FormData';
 import { initialValues, inputsData } from '../../utils/inputsData';
 import { inputsRefs } from '../../utils/inputsRefs';
