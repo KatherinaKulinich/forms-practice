@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { validateValues } from '../helpers/validation';
 import { FormData, FormErrors } from '../types/FormData';
 
-export const useFormDataHandling = (
-    formData: FormData,
-    isActiveForm: boolean
-) => {
+export const useFormHandlers = (formData: FormData, isActiveForm: boolean) => {
     const initialErrorValues: FormErrors = {
         userName: null,
         userSurname: null,

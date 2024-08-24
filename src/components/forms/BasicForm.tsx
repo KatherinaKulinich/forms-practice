@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useConfettiActivating } from '../../hooks/useConfettiActivating';
-import { useFormDataHandling } from '../../hooks/useFormDataHandling';
+import { useFormHandlers } from '../../hooks/useFormHandlers';
 import { FormData } from '../../types/FormData';
 import { initialValues, inputsData } from '../../utils/inputsData';
-import ConfettiEffect from '../ConfettiEffect';
+import ConfettiEffectContainer from '../ConfettiEffectContainer';
 import Field from '../Field';
 import Form from '../Form';
 import ModalFormIsFinished from '../modals/ModalFormIsFinished';
@@ -28,7 +28,7 @@ const BasicForm: React.FC = () => {
         isFormSubmitting,
         clearErrorMessages,
         setIsFormSubmitting
-    } = useFormDataHandling(formData, isFocus);
+    } = useFormHandlers(formData, isFocus);
 
     const onChangeFormData: React.ChangeEventHandler<HTMLInputElement> = (
         event
@@ -50,11 +50,7 @@ const BasicForm: React.FC = () => {
             (key) => key === null
         );
 
-        if (errorsChecking) {
-            setIsSuccess(true);
-            return;
-        }
-        setIsSuccess(false);
+        setIsSuccess(errorsChecking);
     }, [errors, isFormSubmitting]);
 
     useEffect(() => {
@@ -65,18 +61,20 @@ const BasicForm: React.FC = () => {
     }, [isSuccess, isFormSubmitting]);
 
     const isButtonDisabled = Object.values(formData).every((key) => key === '');
-    const finishConfettiAnimation = () => {
+
+    const finishConfettiAnimation = useCallback(() => {
         onFormFinished();
+
         setTimeout(() => {
             setFormData(initialValues);
             clearErrorMessages();
         }, 2000);
-    };
+    }, [onFormFinished, clearErrorMessages]);
 
-    const onInputBlur = () => {
+    const onInputBlur = useCallback(() => {
         setIsFocus(false);
         setIsFormSubmitting(false);
-    };
+    }, [setIsFormSubmitting]);
 
     return (
         <>
@@ -98,19 +96,16 @@ const BasicForm: React.FC = () => {
                         isErrorMessage={
                             errors[data.name as keyof FormData] !== null
                         }
-                        message={
-                            errors[data.name as keyof FormData] === null
-                                ? ''
-                                : errors[data.name as keyof FormData] || ''
-                        }
+                        message={errors[data.name as keyof FormData] || ''}
                         onBlur={onInputBlur}
                     />
                 ))}
             </Form>
 
-            {isConfetti && (
-                <ConfettiEffect offTheEffect={finishConfettiAnimation} />
-            )}
+            <ConfettiEffectContainer
+                isConfetti={isConfetti}
+                finishConfettiEffect={finishConfettiAnimation}
+            />
             <ModalFormIsFinished
                 isVisible={isModalVisible}
                 formData={isModalData}
