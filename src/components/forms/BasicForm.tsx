@@ -16,7 +16,6 @@ const BasicForm: React.FC = () => {
         errors,
         isSuccess,
         onChangeFormData,
-        onInputBlur,
         onSubmitFormData,
         isFormSubmitting,
         clearForm
@@ -35,7 +34,7 @@ const BasicForm: React.FC = () => {
             getConfettiEffect(errors);
             setIsModalData(formData);
         }
-    }, [isSuccess, isFormSubmitting]);
+    }, [isSuccess, isFormSubmitting, formData, errors]);
 
     const finishConfettiAnimation = () => {
         onFormFinished();
@@ -64,13 +63,7 @@ const BasicForm: React.FC = () => {
                         isErrorMessage={Boolean(
                             errors[data.name as keyof FormData]
                         )}
-                        message={
-                            typeof errors[data.name as keyof FormData] ===
-                            'string'
-                                ? errors[data.name as keyof FormData]
-                                : ''
-                        }
-                        onBlur={onInputBlur}
+                        message={errors[data.name as keyof FormData] || ''}
                     />
                 ))}
             </Form>

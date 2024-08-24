@@ -5,11 +5,10 @@ import { FormData } from '../types/FormData';
 
 export const useFormHandlers = (initialFormValues: FormData) => {
     const [formData, setFormData] = useState<FormData>(initialFormValues);
-    const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
-
-    const [isSuccess, setIsSuccess] = useState<boolean>(false);
-    // const [isFocus, setIsFocus] = useState<boolean>(false);
     const [errors, setErrors] = useState<Partial<FormData>>({});
+
+    const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
     const validateFieldHandler = useCallback(
         (name: keyof FormData, value: string) => {
@@ -27,7 +26,6 @@ export const useFormHandlers = (initialFormValues: FormData) => {
         (event: React.ChangeEvent<HTMLInputElement>) => {
             const { name, value } = event.target;
 
-            // setIsFocus(true);
             setFormData((current) => {
                 return {
                     ...current,
@@ -40,42 +38,35 @@ export const useFormHandlers = (initialFormValues: FormData) => {
         []
     );
 
-    const onInputBlur = useCallback(() => {
-        // setIsFocus(false);
-        setIsFormSubmitting(false);
-    }, []);
-
     useEffect(() => {
         const errorsChecking = Object.values(errors).every(
-            (key) => key === null
+            (key) => key === null || key === ''
         );
 
         setIsSuccess(errorsChecking);
-    }, [errors, isFormSubmitting]);
+    }, [errors]);
 
     const onSubmitFormData = (event: React.FormEvent) => {
         event.preventDefault();
-        setErrors(validateValues(formData));
 
-        if (Object.keys(errors).length === 0 && isSuccess) {
-            setIsFormSubmitting(true);
-        }
+        setErrors(validateValues(formData));
+        setIsFormSubmitting(true);
     };
 
     const clearForm = () => {
         setFormData(initialFormValues);
         setErrors({});
+        setIsFormSubmitting(false);
+        setIsSuccess(false);
     };
 
     return {
         formData,
         errors,
-        // isFocus,
         isSuccess,
         isFormSubmitting,
         onChangeFormData,
         onSubmitFormData,
-        onInputBlur,
         clearForm
     };
 };

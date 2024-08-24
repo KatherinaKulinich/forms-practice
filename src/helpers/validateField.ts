@@ -21,14 +21,14 @@ export const validateField = (
             (rules?.minAge && age < rules.minAge) ||
             (rules?.maxAge && age > rules.maxAge)
         ) {
-            return 'Invalid age';
+            return 'Invalid age! The age must be from 12 to 110 y.o';
         }
     }
 
     if (fieldName === 'userEmail' && trimmedValue) {
         const mailPattern = /^[A-Za-z0-9._+\-']+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         if (!mailPattern.test(trimmedValue)) {
-            return 'The email address must be valid.';
+            return 'The email address must be valid and must contain special characters (@ and .)';
         }
     }
 
@@ -43,7 +43,7 @@ export const validateField = (
     if (trimmedValue && fieldName !== 'userEmail' && fieldName !== 'userAge') {
         const textPattern = /^[a-zA-Z]+$/;
         if (!textPattern.test(trimmedValue)) {
-            return 'Invalid input';
+            return 'Invalid data, this field must contain only letters';
         }
     }
 

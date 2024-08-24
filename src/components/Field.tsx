@@ -7,7 +7,7 @@ interface FieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
     labelText: string;
     placeholder: string;
     isErrorMessage: boolean;
-    message: string | undefined;
+    message: string;
 }
 
 const Field = React.forwardRef(
