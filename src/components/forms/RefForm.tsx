@@ -1,17 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { validateValues } from '../../helpers/validateValues';
+import { useConfettiActivating } from '../../hooks/useConfettiActivating';
 import { FormData } from '../../types/FormData';
 import { initialValues, inputsData } from '../../utils/inputsData';
 import { inputsRefs } from '../../utils/inputsRefs';
-import ConfettiEffect from '../ConfettiEffect';
+import ConfettiEffectContainer from '../ConfettiEffectContainer';
 import Field from '../Field';
 import Form from '../Form';
 import ModalFormIsFinished from '../modals/ModalFormIsFinished';
 
 const RefForm: React.FC = () => {
-    const [isConfetti, setIsConfetti] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [formData, setFormData] = useState<FormData>(initialValues);
+    const [errors, setErrors] = useState<Partial<FormData>>({});
+
+    const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
+
+    const {
+        isConfetti,
+        isModalVisible,
+        onFormFinished,
+        getConfettiEffect,
+        closeModal
+    } = useConfettiActivating();
 
     const onSubmitFormData: React.FormEventHandler<HTMLFormElement> = (
         event
@@ -22,18 +33,35 @@ const RefForm: React.FC = () => {
                 Object.assign(o, { [key.input]: key.ref.current?.value }),
             {} as FormData
         );
+        setErrors(validateValues(data));
+        setIsFormSubmitting(true);
 
-        validateValues(data);
         setFormData(data);
-        setIsConfetti(true);
     };
 
-    const onFormFinished = () => {
-        setIsConfetti(false);
-        setIsModalVisible(true);
-    };
+    useEffect(() => {
+        const errorsChecking = Object.values(errors).every(
+            (key) => key === null || key === ''
+        );
+        setIsSuccess(errorsChecking);
+    }, [errors]);
 
-    // const isButtonDisabled = Object.values(formData).every((key) => key === '');
+    useEffect(() => {
+        if (isSuccess && isFormSubmitting) {
+            getConfettiEffect(errors);
+        }
+    }, [isSuccess, isFormSubmitting, formData, errors]);
+
+    const finishConfettiAnimation = () => {
+        onFormFinished();
+
+        setTimeout(() => {
+            setFormData(initialValues);
+            setErrors({});
+            setIsFormSubmitting(false);
+            setIsSuccess(false);
+        }, 2000);
+    };
 
     return (
         <>
@@ -41,7 +69,6 @@ const RefForm: React.FC = () => {
                 formTitle='Uncontrolled Form'
                 formSubTitle='with ref and custom validation'
                 onSubmitForm={onSubmitFormData}
-                isDisabled={false}
             >
                 {inputsData?.map((data) => {
                     return inputsRefs?.map((refItem) => {
@@ -53,8 +80,13 @@ const RefForm: React.FC = () => {
                                     name={data.name}
                                     labelText={data.label}
                                     placeholder={data.placeholder}
-                                    isErrorMessage={false}
-                                    message='Error'
+                                    isErrorMessage={
+                                        !!errors[data.name as keyof FormData]
+                                    }
+                                    message={
+                                        errors[data.name as keyof FormData] ||
+                                        ''
+                                    }
                                     ref={refItem.ref}
                                 />
                             );
@@ -62,11 +94,14 @@ const RefForm: React.FC = () => {
                 })}
             </Form>
 
-            {isConfetti && <ConfettiEffect offTheEffect={onFormFinished} />}
+            <ConfettiEffectContainer
+                isConfetti={isConfetti}
+                finishConfettiEffect={finishConfettiAnimation}
+            />
             <ModalFormIsFinished
                 isVisible={isModalVisible}
                 formData={formData}
-                onClose={() => setIsModalVisible(false)}
+                onClose={closeModal}
             />
         </>
     );

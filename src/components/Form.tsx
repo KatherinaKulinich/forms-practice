@@ -6,7 +6,7 @@ interface FormProps {
     formSubTitle: string;
     children: React.ReactNode;
     onSubmitForm: React.FormEventHandler<HTMLFormElement>;
-    isDisabled: boolean;
+    isDisabled?: boolean;
 }
 
 const Form: React.FC<FormProps> = ({
