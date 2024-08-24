@@ -61,10 +61,15 @@ const BasicForm: React.FC = () => {
                         labelText={data.label}
                         placeholder={data.placeholder}
                         onChange={(event) => onChangeFormData(event)}
-                        isErrorMessage={
-                            errors[data.name as keyof FormData] !== null
+                        isErrorMessage={Boolean(
+                            errors[data.name as keyof FormData]
+                        )}
+                        message={
+                            typeof errors[data.name as keyof FormData] ===
+                            'string'
+                                ? errors[data.name as keyof FormData]
+                                : ''
                         }
-                        message={errors[data.name as keyof FormData] || ''}
                         onBlur={onInputBlur}
                     />
                 ))}

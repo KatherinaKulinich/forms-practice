@@ -11,8 +11,8 @@ export const validateValues = (data: Partial<FormData>) => {
 
         const fieldErrors = validateField(name, value);
 
-        if (fieldErrors?.[name]) {
-            errors[name] = fieldErrors[name];
+        if (fieldErrors) {
+            errors[name] = fieldErrors;
         }
     });
 

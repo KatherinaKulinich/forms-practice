@@ -8,8 +8,7 @@ export const inputsData: Array<InputsData> = [
         placeholder: 'name...',
         rules: {
             minLength: 3,
-            isRequired: true,
-            message: 'Invalid name'
+            isRequired: true
         }
     },
     {
@@ -19,8 +18,7 @@ export const inputsData: Array<InputsData> = [
         placeholder: 'surname...',
         rules: {
             minLength: 3,
-            isRequired: true,
-            message: 'Invalid surname'
+            isRequired: true
         }
     },
     {
@@ -30,8 +28,7 @@ export const inputsData: Array<InputsData> = [
         placeholder: 'city...',
         rules: {
             minLength: 3,
-            isRequired: true,
-            message: 'Invalid city name'
+            isRequired: true
         }
     },
     {
@@ -41,11 +38,9 @@ export const inputsData: Array<InputsData> = [
         placeholder: 'country...',
         rules: {
             minLength: 3,
-            isRequired: true,
-            message: 'Invalid country name'
+            isRequired: true
         }
     },
-
     {
         type: 'mail',
         name: 'userEmail',
@@ -53,9 +48,7 @@ export const inputsData: Array<InputsData> = [
         placeholder: '@mail...',
         rules: {
             minLength: 12,
-            isRequired: true,
-            message:
-                'The email address must be valid and contain special characters.'
+            isRequired: true
         }
     },
     {
@@ -66,8 +59,7 @@ export const inputsData: Array<InputsData> = [
         rules: {
             minAge: 12,
             maxAge: 110,
-            isRequired: true,
-            message: 'Invalid age'
+            isRequired: true
         }
     }
 ];

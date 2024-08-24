@@ -27,7 +27,6 @@ export interface InputsData {
 export interface Rules {
     minLength?: number;
     isRequired: boolean;
-    message: string;
     maxAge?: number;
     minAge?: number;
 }

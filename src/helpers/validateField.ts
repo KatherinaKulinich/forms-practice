@@ -5,54 +5,47 @@ export const validateField = (
     fieldName: keyof FormData,
     fieldValue: string
 ) => {
-    const errors: Partial<FormData> = {};
     const input = inputsData.find((input) => input.name === fieldName);
-    const value = fieldValue.trim();
-    const rules = input?.rules;
-    const isRequiredMessage = 'This this a required field!';
+    if (!input) return null;
 
-    if (!input) return errors;
+    const rules = input.rules;
+    const trimmedValue = fieldValue.trim();
 
-    if (rules?.isRequired && !value) {
-        errors[fieldName] = isRequiredMessage;
-        return;
+    if (rules?.isRequired && !trimmedValue) {
+        return 'This is a required field!';
     }
 
-    if (fieldName === 'userAge' && value) {
-        const age = Number(value);
-
+    if (fieldName === 'userAge' && trimmedValue) {
+        const age = Number(trimmedValue);
         if (
             (rules?.minAge && age < rules.minAge) ||
             (rules?.maxAge && age > rules.maxAge)
         ) {
-            errors.userAge = rules?.message;
+            return 'Invalid age';
         }
-        return;
     }
 
-    if (fieldName === 'userEmail' && value) {
+    if (fieldName === 'userEmail' && trimmedValue) {
         const mailPattern = /^[A-Za-z0-9._+\-']+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-
-        if (!mailPattern.test(value)) {
-            errors.userEmail = rules?.message;
+        if (!mailPattern.test(trimmedValue)) {
+            return 'The email address must be valid.';
         }
-        return;
     }
 
-    if (value && rules?.minLength && value.length < rules?.minLength) {
-        errors[fieldName] =
-            `This field must be at least ${rules?.minLength} characters long!`;
-
-        return;
+    if (
+        trimmedValue &&
+        rules?.minLength &&
+        trimmedValue.length < rules.minLength
+    ) {
+        return `This field must be at least ${rules.minLength} characters long!`;
     }
 
-    if (value && input.name !== 'userEmail' && input.name !== 'userAge') {
+    if (trimmedValue && fieldName !== 'userEmail' && fieldName !== 'userAge') {
         const textPattern = /^[a-zA-Z]+$/;
-
-        if (!textPattern.test(value)) {
-            errors[fieldName] = rules?.message;
+        if (!textPattern.test(trimmedValue)) {
+            return 'Invalid input';
         }
     }
 
-    return errors;
+    return null;
 };
